@@ -33,6 +33,43 @@ const categoria = {
       categoria,
     });
   },
+
+  categoriaPut: async (req, res) => {
+    const { id } = req.params;
+    const { _id, createdAt, __v, estado, ...resto } = req.body;
+    const categoria = await Categoria.findByIdAndUpdate(id, resto);
+
+    res.json({
+      categoria,
+    });
+  },
+
+  categoriaActivar: async (req, res) => {
+    const { id } = req.params;
+    const categoria = await Categoria.findOneAndUpdate(id, { estado: 1 });
+
+    res.json({
+      categoria,
+    });
+  },
+
+  categoriaDesactivar: async (req, res) => {
+    const { id } = req.params;
+    const categoria = await Categoria.findOneAndUpdate(id, { estado: 0 });
+
+    res.json({
+      categoria,
+    });
+  },
+
+  categoriaDelete: async (req, res) => {
+    const { id } = req.params;
+    const categoria = await Categoria.findByIdAndDelete(id);
+
+    res.json({
+      categoria,
+    });
+  },
 };
 
 export default categoria;
