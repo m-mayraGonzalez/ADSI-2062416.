@@ -11,3 +11,4 @@ const existeCategoriaByNombre = async (nombre) => {
   if (existe) throw Error("Ya existe una categoria con ese nombre");
 };
 export { existeCategoriaById, existeCategoriaByNombre };
+

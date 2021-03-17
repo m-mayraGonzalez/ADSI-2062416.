@@ -1,6 +1,6 @@
 import  Router from "express"
 import categoria from "../controllers/categoria.js";
-import { existeCategoriaById, existeCategoriaByNombre } from "../db-helpers/categoria.js";
+import { existeCategoriaById, existeCategoriaByNombre } from "../db-helpers/categoria.js"
 import { validarCampos } from "../middlewares/validar-campos.js";
 import { validarJWT } from "../middlewares/validar-jwt.js";
 import validator from 'express-validator';

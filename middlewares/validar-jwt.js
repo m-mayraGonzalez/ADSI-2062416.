@@ -50,6 +50,4 @@ const validarJWT=async(req, res, next)=>{
     }
 }
 
-
-
 export {generarJWT, validarJWT}
