@@ -5,6 +5,7 @@ import categoria from '../routes/categoria.js';
 import usuario from '../routes/usuario.js'; 
 import persona from '../routes/persona.js'; 
 import articulos from '../routes/articulos.js'
+import ventas from '../routes/ventas.js'
 
 class Server {
   constructor() {
@@ -24,6 +25,7 @@ class Server {
     this.app.use('/api/usuario', usuario )
     this.app.use('/api/persona', persona)
     this.app.use('/api/articulos', articulos)
+    this.app.use('/api/ventas', ventas)
     
   }
 

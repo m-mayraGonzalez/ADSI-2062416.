@@ -1,6 +1,4 @@
 import Articulos from "../models/articulos.js";
-import bcryptjs from 'bcrypt'
-import { generarAJWT } from "../middlewares/validar-jwt.js";
 
 const articulos = {
     articulosGet: async (req, res) => {
@@ -42,37 +40,9 @@ const articulos = {
     });
   },
 
-  login:async(req, res)=>{
-    const {codigo, precioVenta}=req.body;
-    const articulos=await Articulos.findOne({codigo, precioVenta})
-    if(! articulos){
-      return res.json({
-        msg:'articulos/codigo no es correcto'
-      })
-    }
-    if(articulos.estado===0){
-      return res.json({
-        msg:'articulos/codigo no es correcto'
-      })
-    }
-    const validarCodigo=bcryptjs.compareSync(codigo, articulos.codigo)
-    if(! validarCodigo){
-      return res.json({
-        msg:'articulos/codigo no es correcto'
-      })
-    }
-
-    const token = await generarAJWT(articulos._id)
-
-    return res.json({
-        articulos,
-      token
-    })
-  },
-
   articulosPut: async (req, res) => {
     const { id } = req.params;
-    const { _id, email, createdAt, __v, estado, stock, codigo, ...resto } = req.body
+    const { _id, createdAt, __v, estado, ...resto } = req.body
 
     if(codigo){
       const salt=bcryptjs.genSaltSync();

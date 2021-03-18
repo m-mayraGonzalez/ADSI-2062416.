@@ -1,6 +1,4 @@
 import Persona from "../models/persona.js";
-import bcryptjs from 'bcrypt'
-import { generarPJWT } from "../middlewares/validar-jwt.js";
 
 const persona = {
   personaGet: async (req, res) => {
@@ -39,34 +37,6 @@ const persona = {
     res.json({
         persona,
     });
-  },
-
-  login:async(req, res)=>{
-    const { email, numDocumento}=req.body;
-    const persona=await Persona.findOne({email, numDocumento})
-    if(! persona){
-      return res.json({
-        msg:'Persona/numDocumento no son correctos'
-      })
-    }
-    if(persona.estado===0){
-      return res.json({
-        msg:'Persona/numDocumento no son correctos'
-      })
-    }
-    const validarnumDocumento=bcryptjs.compareSync(numDocumento, persona.numDocumento)
-    if(! validarnumDocumento){
-      return res.json({
-        msg:'Persona/numDocumento no son correctos'
-      })
-    }
-
-    const token = await generarPJWT(persona._id)
-
-    return res.json({
-      persona,
-      token
-    })
   },
 
   personaPut: async (req, res) => {

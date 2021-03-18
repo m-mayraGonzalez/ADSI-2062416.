@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const articulosSchema = mongoose.Schema({
-  categoria: {}, 
+  categoria: {type:mongoose.Schema.ObjectId,ref:'categoria',required:true}, 
   nombre: { type: String, required: true, maxlength: 50, unique: true },
   codigo: {type: String, Number, required: true},
   descripcion: { type: String, maxlength: 150 },
