@@ -3,23 +3,12 @@ import Ventas from "../models/ventas.js";
 const ventas = {
   ventasGet: async (req, res) => {
     const { value } = req.query;
-    const ventas = await Ventas.find({
-      $or: [
-        { usuario: new RegExp(value, "i") },
-        { persona: new RegExp(value, "i") },
-        { tipoComprobante: new RegExp(value, "i") },
-        { serieComprobante: new RegExp(value, "i") },
-        { numComprobante: new RegExp(value, "i") },
-        { impuestos: new RegExp(value, "i") },
-        { total: new RegExp(value, "i") },
-        { detalle: new RegExp(value, "i") },
-        { _id: new RegExp(value, "i") },
-        { articulo: new RegExp(value, "i") },
-        { cantidad: new RegExp(value, "i") },
-        { precio: new RegExp(value, "i") },
-        { descuento: new RegExp(value, "i") },
-      ],
-    }).sort({ createdAt: -1 });
+    const ventas = await Ventas
+    .populate('usuario, persona', 'tipoComprobante, serieComprobante, numComprobante, impuestos, total, detalle,  _id, articulo, cantidad, precio, descuento')
+    .find({
+      
+    })
+    .sort({ createdAt: -1 });
 
     res.json({
       ventas,
@@ -27,38 +16,8 @@ const ventas = {
   },
 
   ventasPost: async (req, res) => {
-    const { 
-        usuario, 
-        persona, 
-        tipoComprobante, 
-        serieComprobante, 
-        numComprobante, 
-        impuestos, 
-        total, 
-        detalle, 
-        _id, 
-        articulo, 
-        cantidad, 
-        precio,
-        descuento,
-    }= req.body;
-    const ventas = new Ventas({ 
-        usuario, 
-        persona, 
-        tipoComprobante, 
-        serieComprobante, 
-        numComprobante, 
-        impuestos, 
-        total, 
-        detalle, 
-        _id, 
-        articulo, 
-        cantidad, 
-        precio,
-        descuento,
-    });
-    const salt=bcryptjs.genSaltSync();
-    ventas._id=bcryptjs.hashSync(_id, salt)
+    const { usuario, persona, tipoComprobante, serieComprobante, numComprobante, impuestos, total, detalle,  _id, articulo, cantidad, precio,descuento}= req.body;
+    const ventas = new Ventas({ usuario, persona, tipoComprobante, serieComprobante, numComprobante, impuestos, total, detalle, _id, articulo, cantidad, precio, descuento});
     await ventas.save();
 
     res.json({
@@ -78,12 +37,6 @@ const ventas = {
   ventasPut: async (req, res) => {
     const { id } = req.params;
     const { _id, createdAt, __v, estado, ...resto } = req.body
-
-    if(_id){
-      const salt=bcryptjs.genSaltSync();
-      resto._id=bcryptjs.hashSync(_id, salt)
-    }
-
     const ventas = await Ventas.findByIdAndUpdate(id, resto);
 
     res.json({

@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
 const articulosSchema = mongoose.Schema({
-  categoria: {type:mongoose.Schema.ObjectId,ref:'categoria',required:true}, 
+  categoria: {type:mongoose.Schema.Types.ObjectId,ref:'categoria',required:true}, 
   nombre: { type: String, required: true, maxlength: 50, unique: true },
-  codigo: {type: String, Number, required: true},
-  descripcion: { type: String, maxlength: 150 },
-  precioVenta: {type:Number},
-  stock: {type: String, Number},
+  codigo: { type: String, required: true, maxlength: 64, unique: true },
+  descripcion: { type: String, maxlength: 255 },
+  precioVenta: {type:Number, required: true, default:0},
+  stock: {type:Number, required: true, default:0},
   estado: { type: Number, default: 1 }, //estado:1 activo estado:0 como inactivo
   createdAt: { type: Date, default: Date.now },
 });

@@ -16,7 +16,7 @@ const persona = {
     }).sort({ createdAt: -1 });
 
     res.json({
-        persona,
+      persona,
     });
   },
 
@@ -26,7 +26,7 @@ const persona = {
     await persona.save();
 
     res.json({
-        persona,
+      persona,
     });
   },
 
@@ -35,7 +35,7 @@ const persona = {
     const persona = await Persona.findOne({ _id: id });
 
     res.json({
-        persona,
+      persona,
     });
   },
 
@@ -45,7 +45,7 @@ const persona = {
     const persona = await Persona.findByIdAndUpdate(id, resto);
 
     res.json({
-        persona,
+      persona,
     });
   },
 
@@ -54,7 +54,7 @@ const persona = {
     const persona = await Persona.findOneAndUpdate(id, { estado: 1 });
 
     res.json({
-        persona,
+      persona,
     });
   },
 
@@ -63,7 +63,7 @@ const persona = {
     const persona = await Persona.findOneAndUpdate(id, { estado: 0 });
 
     res.json({
-        persona,
+      persona,
     });
   },
 
@@ -72,7 +72,7 @@ const persona = {
     const persona = await Persona.findByIdAndDelete(id);
 
     res.json({
-        persona,
+      persona,
     });
   },
 };

@@ -4,7 +4,7 @@ import { generarJWT } from "../middlewares/validar-jwt.js";
 
 const usuario = {
   usuarioGet: async (req, res) => {
-    const { value } = req.query;
+    const {value} = req.query;
     const usuarios = await Usuario.find({
       $or: [
         { nombre: new RegExp(value, "i") },
