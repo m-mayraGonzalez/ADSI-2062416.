@@ -5,7 +5,16 @@ const articulos = {
     const {value} = req.query;
     const articulos = await Articulos
     .populate('categoria', 'nombre, codigo, descripcion, precioVenta, stock')
-    .find({})
+    .find({
+      $or: [
+        { categoria: new RegExp(value, "i") },
+        { nombre: new RegExp(value, "i") },
+        { codigo: new RegExp(value, "i") },
+        { descripcion: new RegExp(value, "i") },
+        { precioVenta: new RegExp(value, "i") },
+        { stock: new RegExp(value, "i") },
+      ],
+    })
     .sort({ createdAt: -1 });
 
     res.json({
