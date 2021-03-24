@@ -12,3 +12,6 @@ const articulosSchema = mongoose.Schema({
 });
 
 export default mongoose.model("articulos", articulosSchema);
+
+
+
