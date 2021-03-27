@@ -8,6 +8,11 @@ const existeArticulosById = async (id) => {
 const existeArticulosByNombre = async (nombre) => {
   const existe = await Articulos.findOne({ nombre });
 
-  if (existe) throw Error("Ya existe un articulo con ese nombre");
+  if ( existe) throw  Error("Ya existe un articulo con este nombre");
 };
-export { existeArticulosById, existeArticulosByNombre };
+const existeArticulosByCodigo = async (codigo) => {
+  const existe = await Articulos.findOne({ codigo });
+
+  if (existe) throw Error("Ya existe un articulo con este código");
+};
+export { existeArticulosById, existeArticulosByNombre, existeArticulosByCodigo };

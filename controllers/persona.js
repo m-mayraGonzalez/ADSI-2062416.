@@ -5,13 +5,8 @@ const persona = {
     const { value } = req.query;
     const persona = await Persona.find({
       $or: [
-        { tipoPersona: new RegExp(value, "i") },
         { nombre: new RegExp(value, "i") },
         { tipoDocumento: new RegExp(value, "i") },
-        { numDocumento: new RegExp(value, "i") },
-        { direccion: new RegExp(value, "i") },
-        { telefono: new RegExp(value, "i") },
-        { email: new RegExp(value, "i") },
       ],
     }).sort({ createdAt: -1 });
 

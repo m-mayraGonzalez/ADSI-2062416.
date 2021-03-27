@@ -3,18 +3,15 @@ import Articulos from "../models/articulos.js";
 const articulos = {
   articulosGet: async (req, res) => {
     const {value} = req.query;
-    const articulos = await Articulos
-    .populate('categoria', 'nombre, codigo, descripcion, precioVenta, stock')
+    const articulos = await Articulos    
     .find({
-      $or: [
-        { categoria: new RegExp(value, "i") },
+      $or: [       
         { nombre: new RegExp(value, "i") },
         { codigo: new RegExp(value, "i") },
         { descripcion: new RegExp(value, "i") },
-        { precioVenta: new RegExp(value, "i") },
-        { stock: new RegExp(value, "i") },
       ],
     })
+    .populate('categoria', 'nombre')
     .sort({ createdAt: -1 });
 
     res.json({

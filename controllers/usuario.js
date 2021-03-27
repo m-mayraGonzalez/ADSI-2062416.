@@ -41,7 +41,7 @@ const usuario = {
 
   login:async(req, res)=>{
     const {email, password}=req.body;
-    const usuario=await Usuario.findOne({email, password})
+    const usuario=await Usuario.findOne({email})
     if(! usuario){
       return res.json({
         msg:'Usuario/password no son correctos email'

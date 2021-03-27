@@ -5,9 +5,9 @@ const existeUsuarioById = async (id) => {
 
   if (!existe) throw new Error(`No existe usuario para este ID ${id}`);
 };
-const existeUsuarioByNombre = async (nombre) => {
-  const existe = await Usuario.findOne({ nombre });
+const existeUsuarioEmail = async (email) => {
+  const existe = await Usuario.findOne({ email });
 
-  if (existe) throw Error("Ya existe una usuario con ese nombre");
+  if (! existe) throw new Error("El email ya se encuentra en uso");
 };
-export { existeUsuarioById, existeUsuarioByNombre };
+export { existeUsuarioById, existeUsuarioEmail };

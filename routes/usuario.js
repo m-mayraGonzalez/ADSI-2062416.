@@ -1,6 +1,6 @@
 import  Router from "express"
 import usuario from "../controllers/usuario.js";
-import { existeUsuarioById, existeUsuarioByNombre } from "../db-helpers/usuario.js"
+import { existeUsuarioById, existeUsuarioEmail } from "../db-helpers/usuario.js"
 import { validarCampos } from "../middlewares/validar-campos.js";
 import validator from 'express-validator';
 const {check} = validator
@@ -19,7 +19,7 @@ router.get("/:id",[
 
 router.post("/",[
     check('nombre', 'El nombre es obligatorio').not().isEmpty(),
-    check('nombre').custom(existeUsuarioByNombre),
+    check('email').custom(existeUsuarioEmail),
     validarCampos
 ],usuario.usuarioPost);
 
@@ -28,7 +28,7 @@ router.post("/login",usuario.login)
 router.put("/:id",[
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(existeUsuarioById),
-    check('nombre').custom(existeUsuarioByNombre),
+    check('email').custom(existeUsuarioEmail),
     validarCampos
 ],usuario.usuarioPut);
 
