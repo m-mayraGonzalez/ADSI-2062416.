@@ -1,21 +1,27 @@
-import mongoose from "mongoose"; 
+import mongoose from "mongoose";
 
 const comprasSchema = mongoose.Schema({
-  usuario: {type:mongoose.Schema.Types.ObjectId,ref:'usuario',required:true}, 
-  persona: {type:mongoose.Schema.Types.ObjectId,ref:'persona',required:true},
-  tipoComprobante: {type: String, required: true, maxlength: 50}, 
-  serieComprobante: {type: String}, 
-  numComprobante: {type: Number, required: true, maxlength: 50}, 
-  impuesto: {type: String, required: true}, 
-  total: {type: Number, require: true, unique: true}, 
-  detalles:[{
-    _id: {type:String},
-    articulo: {type:String,required:true}, 
-    cantidad: {type:Number,default:1},
-    precio: {type:Number}
-  }], 
-  estado: { type: Number, default: 1 }, //estado:1 activo estado:0 como inactivo
+  usuario: { type: mongoose.Schema.Types.ObjectId, ref: "usuarios", required: true },
+  persona: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "personas",
+    required: true,
+  },
+  tipoComprobante: { type: String, required: true, maxlength: 20 },
+  serieComprobante: { type: String, maxlength: 10 },
+  numComprobante: { type: String, maxlength: 10, required: true },
+  impuesto: { type: Number, required: true },
+  total: { type: Number, required: true },
+  detalles: [
+    {
+      _id: { type: String, required: true },
+      articulo: { type: String, required: true },
+      cantidad: { type: Number, required: true },
+      precio: { type: Number, required: true },
+    },
+  ],
+  state: { type: Number, default: 1 },
   createdAt: { type: Date, default: Date.now },
-})
+});
 
-export default mongoose.model("compras", comprasSchema); 
+export default mongoose.model("compras", comprasSchema);

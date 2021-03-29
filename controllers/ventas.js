@@ -12,8 +12,8 @@ const ventas = {
       ],
     })
     .sort({ createdAt: -1 })
-    .populate('usuario', ['nombre', 'email'])
-    .populate('persona', ['nombre', 'tipoDocumento'])
+    .populate('usuarios', ['nombre', 'email'])
+    .populate('personas', ['nombre', 'tipoDocumento'])
     
     res.json({
       ventas,
@@ -22,7 +22,10 @@ const ventas = {
 
   ventasById: async (req, res) => {
     const { id } = req.params;
-    const ventas = await Ventas.findById(id);
+    const ventas = await Ventas
+      .findOne({ _id: id })
+      .populate("usuarios", ["nombre", "email"])
+      .populate("personas ", ["nombre", "tipoDocumento"]);
 
     res.json({
       ventas,

@@ -1,41 +1,34 @@
-import Compras from "../models/ventas.js"; 
-import modificarStock from "../models/compras.js"
+import Compras from "../models/compras.js"; 
+import modificarStock from "../db-helpers/modificarStock.js"
 
 const compras = {
-    comprasGet: async (req, res) => {
-    const {value} = req.query;
+  comprasGet: async (req, res) => {
+    const { value } = req.query;
     const compras = await Compras
     .find({
       $or: [
         { tipoComprobante: new RegExp(value, "i") },
         { numComprobante: new RegExp(value, "i") },
-        { detalle: new RegExp(value, "i") },
       ],
     })
-    .populate('usuario', 'persona', 'tipoComprobante', 'numComprobante', 'detalle')
-    .sort({ createdAt: -1 });
-
+    .sort({ createdAt: -1 })
+    .populate('usuarios', ['nombre', 'email'])
+    .populate('personas', ['nombre', 'tipoDocumento'])
+    
     res.json({
-        compras,
-    });
-  },
-
-  comprasPost: async (req, res) => {
-    const { usuario, persona, tipoComprobante, serieComprobante, numComprobante, impuestos, total, detalle,  _id, articulo, cantidad, precio}= req.body;
-    const compras = new Compras({ usuario, persona, tipoComprobante, serieComprobante, numComprobante, impuestos, total, detalle, _id, articulo, cantidad, precio});
-    await compras.save();
-
-    res.json({
-        compras,
+      compras,
     });
   },
 
   comprasById: async (req, res) => {
     const { id } = req.params;
-    const compras = await Compras.findById(id);
+    const compras = await Compras
+      .findOne({ _id: id })
+      .populate("usuarios", ["nombre", "email"])
+      .populate("personas ", ["nombre", "tipoDocumento"]);
 
     res.json({
-        compras,
+      compras,
     });
   },
 
@@ -45,7 +38,7 @@ const compras = {
     const compras = await Compras.findByIdAndUpdate(id, resto);
 
     res.json({
-        compras,
+      compras,
     });
   },
 
@@ -57,8 +50,8 @@ const compras = {
       serieComprobante,
       numComprobante,
       total,
-      impuestos,
-      detalle,
+      impuesto,
+      detalles,
     } = req.body;
     const compras = new Compras({
       usuario,
@@ -67,23 +60,23 @@ const compras = {
       serieComprobante,
       numComprobante,
       total,
-      impuestos,
-      detalle,
+      impuesto,
+      detalles,
     });
 
-    compras.total = compras.detalle.reduce((acc, articulos) => acc + (articulos.cantidad * articulos.precio), 0)
+    compras.total = compras.detalles.reduce((acc, articulos) => acc + (articulos.cantidad * articulos.precio), 0)
   
-    compras.impuestos = compras.total * 0.19
+    compras.impuesto = compras.total * 0.19
     await compras.save();
-    detalle.map((articulos) => modificarStock.disminuirStock(articulos._id,articulos.cantidad))
-    res.status(200).json({
+    detalles.map((articulos) => modificarStock.disminuirStock(articulos._id,articulos.cantidad))
+    res.json({
       compras,
     });
   },
   comprasActivar: async (req, res) => {
     const { id } = req.params;
     const compras = await Compras.findByIdAndUpdate(id, { state: 1 });
-    compras.detalle.map((articulos) => modificarStock.disminuirStock(articulos._id,articulos.cantidad))
+    compras.detalles.map((articulos) => modificarStock.disminuirStock(articulos._id,articulos.cantidad))
     res.json({
       compras,
     });
@@ -91,7 +84,7 @@ const compras = {
   comprasDesactivar: async (req, res) => {
     const { id } = req.params;
     const compras = await Compras.findByIdAndUpdate(id, { state: 0 });
-    compras.detalle.map((articulos) => modificarStock.aumentarStock(articulos._id,articulos.cantidad))
+    compras.detalles.map((articulos) => modificarStock.aumentarStock(articulos._id,articulos.cantidad))
     res.json({
       compras,
     });
@@ -102,7 +95,7 @@ const compras = {
     const compras = await Compras.findByIdAndDelete(id);
 
     res.json({
-        compras,
+      compras,
     });
   },
 };

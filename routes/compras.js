@@ -24,7 +24,7 @@ router.post("/",[
     validarJWT,
     //check('nombre', 'El nombre es obligatorio').not().isEmpty(),
     validarCampos
-],compras.comprasPost);
+],compras.agregar);
 
 router.put("/:id",[
     validarJWT,
