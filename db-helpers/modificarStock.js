@@ -4,12 +4,12 @@ const stock = {
     disminuirStock: async (_id, cantidad)=>{
         let {stock}= await Articulos.findById(_id);
         stock=parseInt(stock)-parseInt(cantidad);
-        await articulos.findByIdAndUpdate ({_id}, {stock}); 
+        await Articulos.findByIdAndUpdate ({_id}, {stock}); 
     },
     aumentarStock : async (_id, cantidad)=>{
         let {stock}= await Articulos.findById(_id);
         stock = parseInt(stock) + parseInt(cantidad);
-        await articulos.findByIdAndUpdate ({_id}, {stock}); 
+        await Articulos.findByIdAndUpdate ({_id}, {stock}); 
     }
 }; 
 

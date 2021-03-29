@@ -8,12 +8,13 @@ const ventas = {
     .find({
       $or: [
         { tipoComprobante: new RegExp(value, "i") },
-        { detalle: new RegExp(value, "i") },
+        { numComprobante: new RegExp(value, "i") },
       ],
     })
-    .populate('usuario', 'persona', 'tipoComprobante', 'detalle')
-    .sort({ createdAt: -1 });
-
+    .sort({ createdAt: -1 })
+    .populate('usuario', ['nombre', 'email'])
+    .populate('persona', ['nombre', 'tipoDocumento'])
+    
     res.json({
       ventas,
     });
