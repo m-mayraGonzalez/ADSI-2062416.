@@ -50,7 +50,7 @@ const articulos = {
 
   articulosActivar: async (req, res) => {
     const { id } = req.params;
-    const articulos = await Articulos.findOneAndUpdate(id, { estado: 1 });
+    const articulos = await Articulos.findByIdAndUpdate(id, { estado: 1 });
 
     res.json({
       articulos,
@@ -59,7 +59,7 @@ const articulos = {
 
   articulosDesactivar: async (req, res) => {
     const { id } = req.params;
-    const articulos = await Articulos.findOneAndUpdate(id, { estado: 0 });
+    const articulos = await Articulos.findByIdAndUpdate(id, { estado: 0 });
 
     res.json({
       articulos,

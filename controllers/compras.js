@@ -1,20 +1,20 @@
-import Compras from "../models/compras.js"; 
+import Compras from "../models/compras.js";
 import modificarStock from "../db-helpers/modificarStock.js"
 
 const compras = {
   comprasGet: async (req, res) => {
     const { value } = req.query;
     const compras = await Compras
-    .find({
-      $or: [
-        { tipoComprobante: new RegExp(value, "i") },
-        { numComprobante: new RegExp(value, "i") },
-      ],
-    })
-    .sort({ createdAt: -1 })
-    .populate('usuarios', ['nombre', 'email'])
-    .populate('personas', ['nombre', 'tipoDocumento'])
-    
+      .find({
+        $or: [
+          { tipoComprobante: new RegExp(value, "i") },
+          { numComprobante: new RegExp(value, "i") },
+        ],
+      })
+      .sort({ createdAt: -1 })
+      .populate('usuario', ['nombre', 'email'])
+      .populate('persona', ['nombre', 'tipoDocumento'])
+
     res.json({
       compras,
     });
@@ -65,10 +65,10 @@ const compras = {
     });
 
     compras.total = compras.detalles.reduce((acc, articulos) => acc + (articulos.cantidad * articulos.precio), 0)
-  
+
     compras.impuesto = compras.total * 0.19
     await compras.save();
-    detalles.map((articulos) => modificarStock.disminuirStock(articulos._id,articulos.cantidad))
+    detalles.map((articulos) => modificarStock.disminuirStock(articulos._id, articulos.cantidad))
     res.json({
       compras,
     });
@@ -76,7 +76,7 @@ const compras = {
   comprasActivar: async (req, res) => {
     const { id } = req.params;
     const compras = await Compras.findByIdAndUpdate(id, { state: 1 });
-    compras.detalles.map((articulos) => modificarStock.disminuirStock(articulos._id,articulos.cantidad))
+    compras.detalles.map((articulos) => modificarStock.disminuirStock(articulos._id, articulos.cantidad))
     res.json({
       compras,
     });
@@ -84,7 +84,7 @@ const compras = {
   comprasDesactivar: async (req, res) => {
     const { id } = req.params;
     const compras = await Compras.findByIdAndUpdate(id, { state: 0 });
-    compras.detalles.map((articulos) => modificarStock.aumentarStock(articulos._id,articulos.cantidad))
+    compras.detalles.map((articulos) => modificarStock.aumentarStock(articulos._id, articulos.cantidad))
     res.json({
       compras,
     });

@@ -12,8 +12,8 @@ const ventas = {
       ],
     })
     .sort({ createdAt: -1 })
-    .populate('usuarios', ['nombre', 'email'])
-    .populate('personas', ['nombre', 'tipoDocumento'])
+    .populate('usuario', ['nombre', 'email'])
+    .populate('persona', ['nombre', 'tipoDocumento'])
     
     res.json({
       ventas,

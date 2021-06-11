@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 
-const ventasSchema = mongoose.Schema({
-  usuario: { type: mongoose.Schema.Types.ObjectId, ref: "usuarios", required: true },
+const ventasSchema = new mongoose.Schema({
+  usuario: { type: mongoose.Schema.Types.ObjectId, ref: "usuario", required: true },
   persona: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "personas",
+    type: mongoose.Schema.ObjectId,
+    ref: "persona",
     required: true,
   },
   tipoComprobante: { type: String, required: true, maxlength: 20 },

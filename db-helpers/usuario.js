@@ -8,6 +8,6 @@ const existeUsuarioById = async (id) => {
 const existeUsuarioEmail = async (email) => {
   const existe = await Usuario.findOne({ email });
 
-  if (! existe) throw new Error("El email ya se encuentra en uso");
+  if ( existe) throw new Error("El email ya se encuentra en uso");
 };
 export { existeUsuarioById, existeUsuarioEmail };

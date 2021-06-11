@@ -46,7 +46,7 @@ const persona = {
 
   personaActivar: async (req, res) => {
     const { id } = req.params;
-    const persona = await Persona.findOneAndUpdate(id, { estado: 1 });
+    const persona = await Persona.findByIdAndUpdate(id, { estado: 1 });
 
     res.json({
       persona,
@@ -55,7 +55,7 @@ const persona = {
 
   personaDesactivar: async (req, res) => {
     const { id } = req.params;
-    const persona = await Persona.findOneAndUpdate(id, { estado: 0 });
+    const persona = await Persona.findByIdAndUpdate(id, { estado: 0 });
 
     res.json({
       persona,

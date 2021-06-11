@@ -1,6 +1,6 @@
 import mongoose from "mongoose"; 
 
-const personaSchema = mongoose.Schema({
+const personaSchema = new mongoose.Schema({
     tipoPersona: {type: String},
     nombre: {type: String, required: true, maxlength: 50, unique: true},
     tipoDocumento: {type: String, required: true, maxlength: 50},

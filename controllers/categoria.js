@@ -36,6 +36,7 @@ const categoria = {
 
   categoriaPut: async (req, res) => {
     const { id } = req.params;
+    console.log(req.body)
     const { _id, createdAt, __v, estado, ...resto } = req.body;
     const categoria = await Categoria.findByIdAndUpdate(id, resto);
 
@@ -46,7 +47,7 @@ const categoria = {
 
   categoriaActivar: async (req, res) => {
     const { id } = req.params;
-    const categoria = await Categoria.findOneAndUpdate(id, { estado: 1 });
+    const categoria = await Categoria.findByIdAndUpdate(id, { estado: 1 });
 
     res.json({
       categoria,
@@ -55,7 +56,7 @@ const categoria = {
 
   categoriaDesactivar: async (req, res) => {
     const { id } = req.params;
-    const categoria = await Categoria.findOneAndUpdate(id, { estado: 0 });
+    const categoria = await Categoria.findByIdAndUpdate(id, { estado: 0 });
 
     res.json({
       categoria,
